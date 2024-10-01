@@ -1292,3 +1292,94 @@ Traceback (most recent call last):
 jinja2.exceptions.TemplateNotFound: index.html
 2024-10-01 17:46:59,375 INFO: 127.0.0.1 - - [01/Oct/2024 17:46:59] "[35m[1mGET / HTTP/1.1[0m" 500 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\Lib\site-packages\werkzeug\_internal.py:97]
 2024-10-01 17:46:59,539 INFO: 127.0.0.1 - - [01/Oct/2024 17:46:59] "[33mGET /favicon.ico HTTP/1.1[0m" 404 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\Lib\site-packages\werkzeug\_internal.py:97]
+2024-10-01 23:04:34,951 ERROR: Unable to connect to the database. Error: (psycopg2.OperationalError) could not translate host name "dpg-crrgo35umphs73b9i570-a" to address: Unknown host
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8) [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\main.py:67]
+2024-10-01 23:08:18,482 INFO: Successfully connected to the database. [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\main.py:65]
+2024-10-01 23:08:42,319 INFO: Successfully connected to the database. [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\main.py:65]
+2024-10-01 23:10:25,710 INFO: Successfully connected to the database. [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\main.py:65]
+2024-10-01 23:10:25,998 INFO: Test user created. [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\main.py:250]
+2024-10-01 23:10:27,022 WARNING:  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment. [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:10:27,023 INFO:  * Running on http://192.168.100.20:5000/ (Press CTRL+C to quit) [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:10:49,258 INFO: Rendering index page [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\main.py:95]
+2024-10-01 23:10:49,263 ERROR: Exception on / [GET] [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\app.py:1454]
+Traceback (most recent call last):
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\main.py", line 96, in index
+    return render_template('index.html')
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\templating.py", line 148, in render_template
+    ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\jinja2\environment.py", line 1084, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\jinja2\environment.py", line 1013, in get_template
+    return self._load_template(name, globals)
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\jinja2\environment.py", line 972, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\templating.py", line 59, in get_source
+    return self._get_source_fast(environment, template)
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\templating.py", line 95, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: index.html
+2024-10-01 23:10:49,279 INFO: 192.168.100.20 - - [01/Oct/2024 23:10:49] "[35m[1mGET / HTTP/1.1[0m" 500 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:10:49,421 INFO: 192.168.100.20 - - [01/Oct/2024 23:10:49] "[33mGET /favicon.ico HTTP/1.1[0m" 404 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:13:54,808 INFO: Rendering index page [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\main.py:95]
+2024-10-01 23:13:54,820 INFO: 192.168.100.20 - - [01/Oct/2024 23:13:54] "GET / HTTP/1.1" 200 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:13:54,881 INFO: 192.168.100.20 - - [01/Oct/2024 23:13:54] "[33mGET /static/css/styles.css?v=6 HTTP/1.1[0m" 404 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:14:19,136 ERROR: Exception on /demo-test [GET] [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\app.py:1454]
+Traceback (most recent call last):
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\main.py", line 217, in demo_test
+    return render_template('demo_test.html', questions=questions)
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\templating.py", line 148, in render_template
+    ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\jinja2\environment.py", line 1084, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\jinja2\environment.py", line 1013, in get_template
+    return self._load_template(name, globals)
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\jinja2\environment.py", line 972, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\templating.py", line 59, in get_source
+    return self._get_source_fast(environment, template)
+  File "C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\flask\templating.py", line 95, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: demo_test.html
+2024-10-01 23:14:19,147 INFO: 192.168.100.20 - - [01/Oct/2024 23:14:19] "[35m[1mGET /demo-test HTTP/1.1[0m" 500 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:14:48,158 INFO: 192.168.100.20 - - [01/Oct/2024 23:14:48] "GET /demo-test HTTP/1.1" 200 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:14:48,220 INFO: 192.168.100.20 - - [01/Oct/2024 23:14:48] "[33mGET /static/css/styles.css?v=4 HTTP/1.1[0m" 404 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:14:51,363 INFO: Rendering index page [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\main.py:95]
+2024-10-01 23:14:51,367 INFO: 192.168.100.20 - - [01/Oct/2024 23:14:51] "GET / HTTP/1.1" 200 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:14:51,430 INFO: 192.168.100.20 - - [01/Oct/2024 23:14:51] "[33mGET /static/css/styles.css?v=6 HTTP/1.1[0m" 404 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:14:53,356 INFO: 192.168.100.20 - - [01/Oct/2024 23:14:53] "GET /login HTTP/1.1" 200 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:14:53,415 INFO: 192.168.100.20 - - [01/Oct/2024 23:14:53] "[33mGET /static/css/styles.css?v=4 HTTP/1.1[0m" 404 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:14:56,393 INFO: Rendering index page [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\main.py:95]
+2024-10-01 23:14:56,394 INFO: 192.168.100.20 - - [01/Oct/2024 23:14:56] "GET / HTTP/1.1" 200 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:14:56,458 INFO: 192.168.100.20 - - [01/Oct/2024 23:14:56] "[33mGET /static/css/styles.css?v=6 HTTP/1.1[0m" 404 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:15:52,965 INFO: 192.168.100.20 - - [01/Oct/2024 23:15:52] "GET /demo-test HTTP/1.1" 200 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:15:53,075 INFO: 192.168.100.20 - - [01/Oct/2024 23:15:53] "[33mGET /static/css/styles.css?v=4 HTTP/1.1[0m" 404 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:15:55,423 INFO: Rendering index page [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\main.py:95]
+2024-10-01 23:15:55,424 INFO: 192.168.100.20 - - [01/Oct/2024 23:15:55] "GET / HTTP/1.1" 200 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:15:55,502 INFO: 192.168.100.20 - - [01/Oct/2024 23:15:55] "[33mGET /static/css/styles.css?v=6 HTTP/1.1[0m" 404 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:16:00,371 INFO: 192.168.100.20 - - [01/Oct/2024 23:16:00] "GET /demo-test HTTP/1.1" 200 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:16:00,445 INFO: 192.168.100.20 - - [01/Oct/2024 23:16:00] "[33mGET /static/css/styles.css?v=4 HTTP/1.1[0m" 404 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:16:03,163 INFO: Rendering index page [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\main.py:95]
+2024-10-01 23:16:03,163 INFO: 192.168.100.20 - - [01/Oct/2024 23:16:03] "GET / HTTP/1.1" 200 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
+2024-10-01 23:16:03,251 INFO: 192.168.100.20 - - [01/Oct/2024 23:16:03] "[33mGET /static/css/styles.css?v=6 HTTP/1.1[0m" 404 - [in C:\Users\Talal Mohiuddin\Desktop\Dk-theory-test-main\.venv\lib\site-packages\werkzeug\_internal.py:225]
