@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theory Test - Theory Test Prep</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=4">
+    <style>
+        .unanswered {
+            border: 2px solid red;
+            background-color: #ffeeee;
+        }
+        #unanswered-message {
+            color: red;
+            font-weight: bold;
+        }
+        #unanswered-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .unanswered-item {
+            background-color: #ffeeee;
+            border: 1px solid red;
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .unanswered-item:hover {
+            background-color: #ffdddd;
+        }
+        #progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            padding: 3px;
+            border-radius: 3px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, .2);
+        }
+        #progress-bar-fill {
+            display: block;
+            height: 22px;
+            background-color: #659cef;
+            border-radius: 3px;
+            transition: width 500ms ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <header class="bg-blue-600 text-white p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Theory Test Prep</h1>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="/" class="hover:text-blue-200">Home</a></li>
+                    <li><a href="/logout" class="hover:text-blue-200">Log Out</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto mt-8 px-4">
+        <h2 class="text-3xl font-bold mb-4 text-center">Theory Test Questions</h2>
+        <div id="progress-tracker" class="mb-4">
+            <div id="progress-bar">
+                <span id="progress-bar-fill" style="width: 0%;"></span>
+            </div>
+            <p id="progress-text" class="text-center mt-2 text-lg font-semibold">0 / 1260 questions answered</p>
+        </div>
+        <div id="question-container" class="bg-white p-6 rounded-lg shadow-md">
+            <!-- Questions will be dynamically loaded here -->
+        </div>
+        <div class="mt-4 text-center">
+            <button id="prev-question" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 mr-2">Previous</button>
+            <button id="next-question" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Next</button>
+            <button id="submit-test" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 ml-2" disabled>Submit Test</button>
+        </div>
+        <div id="unanswered-message" class="mt-4 text-center"></div>
+        <div id="unanswered-list" class="mt-4 text-center"></div>
+        <div id="results-container" class="mt-8 bg-white p-6 rounded-lg shadow-md hidden">
+            <!-- Results will be dynamically loaded here -->
+        </div>
+    </main>
+
+    <script>
+        const questions = {{ questions|tojson|safe }};
+        let currentQuestionIndex = 0;
+        const userAnswers = {};
+        const totalQuestions = 1260; // Total number of questions in the database
+
+        function displayQuestion(index) {
+            const question = questions[index];
+            const container = document.getElementById('question-container');
+            
+            let html = `<h3 class="text-xl font-semibold mb-4 ${isQuestionAnswered(index) ? '' : 'unanswered'}">Question ${index + 1} of ${questions.length}</h3>`;
+            html += `<p class="mb-4">${question.question}</p>`;
+            
+            if (question.image1) {
+                html += `<img src="${question.image1}" alt="Question image" class="mb-4 mx-auto">`;
+            }
+            
+            for (let i = 1; i <= 4; i++) {
+                const optionKey = `Q${i}`;
+                const optionText = question[optionKey];
+                if (optionText) {
+                    const userAnswer = userAnswers[index] ? userAnswers[index][optionKey] : null;
+                    html += `
+                    <div class="mb-4">
+                        <p class="mb-2">${optionText}</p>
+                        <div>
+                            <label class="inline-flex items-center mr-4">
+                                <input type="radio" name="answer-${index}-${optionKey}" value="true" ${userAnswer === true ? 'checked' : ''}>
+                                <span class="ml-2">True</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="answer-${index}-${optionKey}" value="false" ${userAnswer === false ? 'checked' : ''}>
+                                <span class="ml-2">False</span>
+                            </label>
+                        </div>
+                    </div>`;
+                }
+            }
+            
+            container.innerHTML = html;
+
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', () => {
+                    const [questionIndex, optionKey] = radio.name.split('-').slice(1);
+                    if (!userAnswers[questionIndex]) {
+                        userAnswers[questionIndex] = {};
+                    }
+                    userAnswers[questionIndex][optionKey] = radio.value === 'true';
+                    updateSubmitButton();
+                    updateQuestionStatus(parseInt(questionIndex));
+                    updateProgressTracker();
+                });
+            });
+
+            document.getElementById('prev-question').disabled = index === 0;
+            document.getElementById('next-question').disabled = index === questions.length - 1;
+            updateSubmitButton();
+            updateProgressTracker();
+        }
+
+        function isQuestionAnswered(index) {
+            if (!userAnswers[index]) return false;
+            const question = questions[index];
+            for (let i = 1; i <= 4; i++) {
+                const optionKey = `Q${i}`;
+                if (question[optionKey] && userAnswers[index][optionKey] === undefined) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function updateQuestionStatus(index) {
+            const questionTitle = document.querySelector('h3');
+            if (isQuestionAnswered(index)) {
+                questionTitle.classList.remove('unanswered');
+            } else {
+                questionTitle.classList.add('unanswered');
+            }
+        }
+
+        function updateSubmitButton() {
+            const unansweredQuestions = getUnansweredQuestions();
+            const submitButton = document.getElementById('submit-test');
+            const unansweredMessage = document.getElementById('unanswered-message');
+            const unansweredList = document.getElementById('unanswered-list');
+
+            if (unansweredQuestions.length > 0) {
+                submitButton.disabled = true;
+                unansweredMessage.textContent = `You still have ${unansweredQuestions.length} unanswered ${unansweredQuestions.length === 1 ? 'question' : 'questions'}.`;
+                unansweredList.innerHTML = unansweredQuestions.map(q => `<span class="unanswered-item" onclick="navigateToQuestion(${q - 1})">${q}</span>`).join('');
+            } else {
+                submitButton.disabled = false;
+                unansweredMessage.textContent = 'All questions answered. You can submit your test now.';
+                unansweredList.innerHTML = '';
+            }
+        }
+
+        function getUnansweredQuestions() {
+            return questions.map((q, index) => {
+                if (!isQuestionAnswered(index)) {
+                    return index + 1;
+                }
+                return null;
+            }).filter(q => q !== null);
+        }
+
+        function navigateToQuestion(index) {
+            currentQuestionIndex = index;
+            displayQuestion(currentQuestionIndex);
+        }
+
+        function updateProgressTracker() {
+            const answeredQuestions = questions.filter((_, index) => isQuestionAnswered(index)).length;
+            const progressPercentage = (answeredQuestions / totalQuestions) * 100;
+
+            document.getElementById('progress-bar-fill').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${answeredQuestions} / ${totalQuestions} questions answered`;
+        }
+
+        document.getElementById('prev-question').addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion(currentQuestionIndex);
+            }
+        });
+
+        document.getElementById('next-question').addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion(currentQuestionIndex);
+            }
+        });
+
+        document.getElementById('submit-test').addEventListener('click', () => {
+            const results = questions.map((q, index) => {
+                const userAnswersForQuestion = userAnswers[index];
+                let correct = true;
+                for (let i = 1; i <= 4; i++) {
+                    const optionKey = `Q${i}`;
+                    if (q[optionKey] && q[`${optionKey} `] !== userAnswersForQuestion[optionKey]) {
+                        correct = false;
+                        break;
+                    }
+                }
+                return {
+                    question: q.question,
+                    correct: correct,
+                    user_answers: userAnswersForQuestion,
+                    correct_answers: {
+                        Q1: q['Q1 '],
+                        Q2: q['Q2 '],
+                        Q3: q['Q3 '],
+                        Q4: q['Q4 ']
+                    }
+                };
+            });
+
+            const score = results.filter(r => r.correct).length;
+            displayResults({ score, passed: score >= 20, results });
+        });
+
+        function displayResults(result) {
+            const container = document.getElementById('results-container');
+            container.classList.remove('hidden');
+
+            let html = `
+                <h3 class="text-2xl font-bold mb-4">Test Results</h3>
+                <p class="text-xl mb-4">Score: ${result.score} / 25</p>
+                <p class="text-xl mb-4">${result.passed ? 'Congratulations! You passed the test.' : 'Sorry, you did not pass the test. Please try again.'}</p>
+                <h4 class="text-xl font-semibold mb-2">Question Details:</h4>
+            `;
+
+            result.results.forEach((q, index) => {
+                html += `
+                    <div class="mb-4 p-4 ${q.correct ? 'bg-green-100' : 'bg-red-100'} rounded">
+                        <p class="font-semibold mb-2">Question ${index + 1}: ${q.question}</p>
+                        <ul>
+                            ${Object.entries(q.user_answers).map(([key, value]) => `
+                                <li class="mb-2">
+                                    <p>${questions[index][key]}</p>
+                                    <p>Your answer: ${value ? 'True' : 'False'}</p>
+                                    <p>Correct answer: ${q.correct_answers[key] ? 'True' : 'False'}</p>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Display the first question when the page loads
+        displayQuestion(currentQuestionIndex);
+    </script>
+</body>
+</html>
